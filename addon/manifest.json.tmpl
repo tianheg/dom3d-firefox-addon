@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "dom3d-firefox-addon",
+  "version": "{{version}}",
+  "description": "{{description}}",
+  "author": "{{{author}}}",
+  "homepage_url": "{{{homepage}}}",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "dom3d-firefox-addon@tianheg.co"
+    }
+  },
+  "icons": {
+    "48": "logo.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "activeTab"
+  ]
+}

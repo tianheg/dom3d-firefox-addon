@@ -1,0 +1,37 @@
+{
+  "name": "dom3d-firefox-addon",
+  "description": "",
+  "version": "0.0.1",
+  "author": "tianheg (https://tianheg.co/)",
+  "devDependencies": {
+    "addons-linter": "^6.24.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-mozilla": "^3.7.1",
+    "eslint-plugin-no-unsanitized": "^4.0.2",
+    "mustache": "^4.2.0",
+    "npm-run-all": "^4.1.5",
+    "stylelint": "^16.3.1",
+    "stylelint-config-standard": "^36.0.0",
+    "web-ext": "^7.11.0"
+  },
+  "homepage": "https://github.com/tianheg/dom3d-firefox-addon",
+  "license": "MPL-2.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tianheg/dom3d-firefox-addon.git"
+  },
+  "scripts": {
+    "start": "run-s build run",
+    "lint": "run-s lint:*",
+    "lint:addon": "npm run package && addons-linter ./addon.xpi -o text --self-hosted",
+    "lint:js": "eslint .",
+    "lint:styles": "stylelint ./addon/*.css",
+    "build": "run-s build:*",
+    "build:manifest": "node -e 'let input = JSON.parse(fs.readFileSync(\"package.json\"));Object.assign(input, process.env); console.log(JSON.stringify(input))' | mustache - addon/manifest.json.tmpl > addon/manifest.json",
+    "build:web-ext": "web-ext build --source-dir=addon --overwrite-dest --ignore-files '*.tmpl'",
+    "package": "npm run build && cp web-ext-artifacts/`ls -t1 web-ext-artifacts | head -n 1` addon.xpi",
+    "run": "mkdir -p ./Profile && web-ext run --source-dir=addon -p ./Profile --browser-console --keep-profile-changes -f firefox-developer-edition",
+    "test": "npm run lint"
+  }
+}
